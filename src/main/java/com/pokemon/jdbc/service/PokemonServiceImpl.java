@@ -35,7 +35,9 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Override
     public int addNewPokemon(PokemonDto pokemonDto) {
-        return 0;
+       return jdbcTemplate.update("INSERT INTO pokemons(name, weight, speciesUrl, speciesName)" +
+                " VALUES(?,?,?,?)", pokemonDto.getName(), pokemonDto.getWeight(),
+                pokemonDto.getSpecies().getUrl(),pokemonDto.getSpecies().getName());
     }
 
     @Override

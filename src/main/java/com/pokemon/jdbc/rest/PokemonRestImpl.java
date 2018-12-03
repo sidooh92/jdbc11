@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class PokemonRestImpl implements PokemonRest {
     @GetMapping("/findAll")
     @Override
     public ResponseEntity<List<PokemonDto>> findAll() {
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(pokemonService.findAll());
     }
 
     @PostMapping("/addNewPokemon")

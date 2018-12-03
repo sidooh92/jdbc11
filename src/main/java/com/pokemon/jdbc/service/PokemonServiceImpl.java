@@ -69,7 +69,11 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Override
     public int count() {
-        return 0;
+
+        return this.jdbcTemplate.queryForObject(
+                "select count(*) from pokemons", Integer.class);
+
+
     }
 
     @Override

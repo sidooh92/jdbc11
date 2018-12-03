@@ -52,7 +52,8 @@ public class PokemonRestImpl implements PokemonRest {
     @GetMapping("/count")
     @Override
     public ResponseEntity<Integer> count() {
-        return null;
+
+      return   ResponseEntity.status(HttpStatus.OK).body(pokemonService.count());
     }
 
     @DeleteMapping("/delete")

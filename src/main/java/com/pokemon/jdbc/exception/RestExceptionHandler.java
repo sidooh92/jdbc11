@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice(basePackages = "com.pokemon.rest")
 public class RestExceptionHandler  extends ResponseEntityExceptionHandler{
-    
+
 
     @ExceptionHandler(value = { RestPokemonException.class})
     public ResponseEntity<Object> handleRestPokemon(Exception e, WebRequest webRequest) {

@@ -6,10 +6,7 @@ import com.pokemon.jdbc.service.PokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,7 +41,7 @@ public class PokemonRestImpl implements PokemonRest {
 
     @PostMapping("/addNewPokemon")
     @Override
-    public ResponseEntity<Integer> addNewPokemon(PokemonDto pokemonDto) throws RestPokemonException {
+    public ResponseEntity<Integer> addNewPokemon(@RequestBody PokemonDto pokemonDto) throws RestPokemonException {
 
         int i = pokemonService.addNewPokemon(pokemonDto);
         if (i < 0) throw new RestPokemonException();

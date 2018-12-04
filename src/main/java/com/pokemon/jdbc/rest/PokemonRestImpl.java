@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
 
 
 @RestController
+@RequestMapping("/api")
 public class PokemonRestImpl implements PokemonRest {
 
     private PokemonService pokemonService;
@@ -24,8 +24,15 @@ public class PokemonRestImpl implements PokemonRest {
 
     @GetMapping("/findById")
     @Override
-    public ResponseEntity<PokemonDto> findById(int id) {
-        return null;
+    public ResponseEntity<PokemonDto> findById(int id) throws RestNotFoundPokemonException {
+
+        PokemonDto byId = pokemonService.findById(id);
+        if (byId != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(byId);
+        } else {
+            throw new RestNotFoundPokemonException();
+        }
+
     }
 
     @GetMapping("/findByName")
@@ -49,7 +56,7 @@ public class PokemonRestImpl implements PokemonRest {
         return ResponseEntity.status(HttpStatus.CREATED).body(i);
     }
 
-    @GetMapping("/api/count")
+    @GetMapping("/count")
     @Override
     public ResponseEntity<Integer> count() {
 

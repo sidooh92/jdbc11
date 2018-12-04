@@ -3,15 +3,11 @@ package com.pokemon.jdbc.service;
 import com.pokemon.jdbc.domain.PokemonDomain;
 import com.pokemon.jdbc.dto.PokemonDto;
 import com.pokemon.jdbc.dto.SpeciesDto;
-import com.pokemon.jdbc.rest.PokemonRest;
+import com.pokemon.jdbc.mapper.PokemonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +23,15 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Override
     public PokemonDto findById(int id) {
+        PokemonDomain query;
+        try {
+            query = this.jdbcTemplate.queryForObject(
+                    "SELECT * FROM pokemons WHERE idPokemon = ?", new PokemonMapper(), id);
+            return convertPokemonToDto(query);
+
+        } catch (Exception e) {
+            e.printStackTrace(); //log.error("Couldn't find pokemon");
+        }
         return null;
     }
 
@@ -38,16 +43,9 @@ public class PokemonServiceImpl implements PokemonService {
     @Override
     public List<PokemonDto> findAll() {
 
-        List<PokemonDomain> pokemonDomainList = jdbcTemplate.query("SELECT idPokemon, name, weight, speciesUrl, speciesName from pokemons", (rs, rowNum) -> {
-            PokemonDomain pokemonDomain = new PokemonDomain();
-
-            pokemonDomain.setIdPokemon(rs.getInt("idPokemon"));
-            pokemonDomain.setName(rs.getString("name"));
-            pokemonDomain.setWeight(Integer.parseInt(rs.getString("weight")));
-            pokemonDomain.setSpeciesUrl(rs.getString("speciesUrl"));
-            pokemonDomain.setSpeciesName(rs.getString("speciesName"));
-            return pokemonDomain;
-        });
+        List<PokemonDomain> pokemonDomainList = jdbcTemplate
+                .query("SELECT idPokemon, name, weight, speciesUrl, speciesName from pokemons",
+                new PokemonMapper());
 
      return pokemonDomainList
              .stream()

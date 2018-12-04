@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PokemonRest {
 
-    ResponseEntity<PokemonDto> findById(int id);
+    ResponseEntity<PokemonDto> findById(int id) throws RestNotFoundPokemonException;
     ResponseEntity<PokemonDto> findByName(String name);
     ResponseEntity<List<PokemonDto>> findAll();
     ResponseEntity<Integer> addNewPokemon(PokemonDto pokemonDto) throws RestPokemonException;

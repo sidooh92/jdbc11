@@ -37,8 +37,14 @@ public class PokemonRestImpl implements PokemonRest {
 
     @GetMapping("/findByName")
     @Override
-    public ResponseEntity<PokemonDto> findByName(String name) {
-        return null;
+    public ResponseEntity<PokemonDto> findByName(String name) throws RestNotFoundPokemonException {
+
+       return pokemonService.findByName(name)
+               .map(p -> ResponseEntity.status(HttpStatus.OK).body(p))
+               .orElseThrow(() -> new RestNotFoundPokemonException());
+
+
+
     }
 
     @GetMapping("/findAll")

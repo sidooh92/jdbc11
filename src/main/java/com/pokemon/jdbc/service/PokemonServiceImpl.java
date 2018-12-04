@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,8 +37,17 @@ public class PokemonServiceImpl implements PokemonService {
     }
 
     @Override
-    public PokemonDto findByName(String name) {
-        return null;
+    public Optional<PokemonDto> findByName(String name) {
+        PokemonDomain query;
+        try {
+            query = this.jdbcTemplate.queryForObject(
+                    "SELECT * FROM pokemons WHERE name = ?", new PokemonMapper(), name);
+            return Optional.ofNullable(convertPokemonToDto(query));
+
+        } catch (Exception e) {
+            e.printStackTrace(); //log.error("Couldn't find pokemon");
+        }
+        return Optional.empty();
     }
 
     @Override

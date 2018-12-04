@@ -49,7 +49,7 @@ public class PokemonRestImpl implements PokemonRest {
         return ResponseEntity.status(HttpStatus.CREATED).body(i);
     }
 
-    @GetMapping("/count")
+    @GetMapping("/api/count")
     @Override
     public ResponseEntity<Integer> count() {
 

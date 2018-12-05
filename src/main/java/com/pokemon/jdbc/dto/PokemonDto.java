@@ -2,9 +2,10 @@ package com.pokemon.jdbc.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.hateoas.ResourceSupport;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PokemonDto {
+public class PokemonDto extends ResourceSupport {
 
     private String name;
     private String weight;

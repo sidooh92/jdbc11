@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 
 @RestController
 @RequestMapping("/api")
@@ -27,7 +30,9 @@ public class PokemonRestImpl implements PokemonRest {
     public ResponseEntity<PokemonDto> findById(int id) throws RestNotFoundPokemonException {
 
         PokemonDto byId = pokemonService.findById(id);
+
         if (byId != null) {
+            byId.add(linkTo(methodOn(PokemonRestImpl.class).count()).withSelfRel());
             return ResponseEntity.status(HttpStatus.OK).body(byId);
         } else {
             throw new RestNotFoundPokemonException();
